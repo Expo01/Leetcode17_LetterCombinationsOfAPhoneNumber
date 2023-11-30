@@ -18,11 +18,14 @@ public class Main {
     }
 }
 
-
+// my code beats 80 and 80 and its gorgeous
 class Solution {
     List<String> combos = new ArrayList<>();
 
     public List<String> letterCombinations(String digits) {
+        if (digits.length() == 0) {
+            return combos;
+        }
         Map<Integer, ArrayList<Character>> numToChars = new HashMap<>();
 
         char letter = 97;
@@ -41,42 +44,27 @@ class Solution {
             numToChars.put(i, letters);
         }
 
-        ArrayList<String> temp = new ArrayList<>(); // should be stringbuilder*******
+        StringBuilder temp = new StringBuilder();
         create(numToChars, digits, 0, temp);
 
         return combos;
     }
 
-    private void create(Map<Integer, ArrayList<Character>> numToChars, String digits, int index, ArrayList<String> temp) {
-        System.out.println("broken?");
-        System.out.println(index + " index");
+    private void create(Map<Integer, ArrayList<Character>> numToChars, String digits, int index, StringBuilder temp) {
         int curNum = Integer.parseInt(String.valueOf(digits.charAt(index)));
-        System.out.println(curNum + " curNum");
         ArrayList<Character> curLetters = numToChars.get(curNum);
 
         for (Character letter : curLetters) {
-            System.out.println(letter + " letter");
-            temp.add(letter.toString()); // should be stringbuilder*******
-            System.out.println(temp.size() + " temp size");
-            if (temp.size() == digits.length()) {
-                combos.add(String.valueOf(new ArrayList<>(temp))); // add converteed strngbuilder
-
+            temp.append(letter);
+            if (temp.length() == digits.length()) {
+                combos.add(temp.toString()); // add converteed strngbuilder
             } else {
-                if(index< digits.length()){
-                    System.out.println("reached");
-                    create(numToChars, digits, index + 1, temp);
-                }
-
+                create(numToChars, digits, index + 1, temp);
             }
-            temp.remove(temp.size() - 1); //deletee final char fror builder****
-            System.out.println("remove statement and index of " + index); // this works where supposing '23' is given digits. final
-            // combo is cf. deletes f. deletes c. index on '3' digit call is 1. returns to instance of '2' digit call index 0.
-            // how is final loop occuring?
+            temp.deleteCharAt(temp.length() - 1); //deletee final char fror builder****
         }
     }
-
-} // eveything good at this point (igoring need for SB) except is somehow having one final recursive call after full looping of int/chars
-
+}
 
 
 //
